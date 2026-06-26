@@ -66,29 +66,49 @@ This repository contains a real-time AI Smart Agriculture application with a fro
 
 Use Docker to run the frontend and backend together with a local proxy.
 
-1. Build and start the services:
+Prerequisites
+- Install Docker Desktop for Windows: https://www.docker.com/get-started
+- Ensure Docker Desktop is running before continuing.
 
-   ```powershell
-   docker compose up --build
-   ```
+Build and run (recommended)
 
-2. Open the frontend at:
+From the repository root run (PowerShell):
 
-   ```text
-   http://localhost:3000
-   ```
+```powershell
+cd C:\Users\ADMIN\Desktop\internship
+docker compose up --build
+```
 
-3. The backend API will be available at:
+- Frontend will be served at: http://localhost:3000
+- Backend API will be available at: http://localhost:8000
 
-   ```text
-   http://localhost:8000
-   ```
+Stop and remove containers:
 
-4. To stop the stack:
+```powershell
+docker compose down
+```
 
-   ```powershell
-   docker compose down
-   ```
+Windows convenience script
+
+There is a small helper script `run-docker.ps1` (in the repo root) which:
+- checks whether Docker is available
+- starts Docker Compose with `--build`
+
+Run it from PowerShell (may require elevated privileges if Docker Desktop needs setup):
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+.\run-docker.ps1
+```
+
+Troubleshooting
+- If `docker` is not found, install Docker Desktop and restart your shell.
+- If ports `3000` or `8000` are in use, stop the conflicting service or map ports in `docker-compose.yml`.
+- If model artifacts are missing, place trained models under `backend/app/models` before building the backend image so they are copied into the container at build time.
+
+Notes
+- The frontend `nginx.conf` proxies `/api/` to the `backend` service, so the containers can communicate using the service name `backend:8000`.
+- The `backend` image installs dependencies from `backend/requirements.txt` at build time.
 
 ## API Endpoints
 
