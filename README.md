@@ -114,15 +114,31 @@ Notes
 
 This repo can be deployed on Render with both backend and frontend services using `render.yaml`.
 
+### Backend service
 1. Connect your GitHub repository to Render.
-2. Create a new Render project and choose "Use existing render.yaml".
-3. For the frontend service, set the environment variable `VITE_API_BASE_URL`
-   to your backend URL, for example: `https://<your-backend>.onrender.com`.
-4. Deploy the services.
+2. Create a new Web Service using the existing `render.yaml` manifest.
+3. Render will use the backend service configuration from `render.yaml`.
+4. The backend service will run from the `backend` folder and start with:
+   `uvicorn app.main:app --host 0.0.0.0 --port 10000`
+
+### Frontend service
+1. The frontend is defined in `render.yaml` as a static site with `rootDir: frontend`.
+2. Render will build the frontend by running `npm install && npm run build` inside the `frontend` folder.
+3. The built site is published from `frontend/dist`.
+4. In Render, set the environment variable `VITE_API_BASE_URL` for the frontend service to your backend URL, for example:
+   `https://ai-smart-agriculture-backend.onrender.com`
+
+### Deployment steps
+1. In Render, click "New" → "Web Service" and import the repo.
+2. Select "Use existing render.yaml" when prompted.
+3. Confirm both services are detected: `ai-smart-agriculture-backend` and `ai-smart-agriculture-frontend`.
+4. Deploy the repository.
+5. After backend deploy, copy the backend URL and set it as `VITE_API_BASE_URL` in the frontend service environment variables.
+6. Redeploy the frontend service if necessary.
 
 After deployment:
-- The frontend will be served by Render static site hosting.
-- The backend will be served by Render as a web service.
+- Frontend URL: available from the static site service.
+- Backend API URL: available from the web service.
 
 ### Vercel Deployment
 
