@@ -116,6 +116,8 @@ This repo can be deployed on Render with both backend and frontend services usin
 
 [![Deploy to Render](https://render.com/images/deploy-button.svg)](https://render.com/deploy?repo=https://github.com/kamalesh-ui/Agriculture)
 
+Click the button to create a Render project directly from this repository. After deploy, set `VITE_API_BASE_URL` for the frontend service to the backend URL.
+
 ### Backend service
 1. Connect your GitHub repository to Render.
 2. Create a new Web Service using the existing `render.yaml` manifest.
@@ -145,6 +147,8 @@ After deployment:
 ### Vercel Deployment
 
 [![Deploy to Vercel](https://www.vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/kamalesh-ui/Agriculture)
+
+Click the button to import this repo into Vercel. Set `VITE_API_BASE_URL` to your backend API URL in Vercel environment variables.
 
 You can deploy only the frontend to Vercel. The backend must still run separately on Render, Railway, Fly, or another Python host.
 
