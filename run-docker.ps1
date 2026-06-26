@@ -4,7 +4,8 @@
 
 Write-Host "Checking for Docker..."
 try {
-    $dockerVersion = docker --version 2>$null
+    # Execute command and discard output; assigning to $null avoids unused-variable warnings
+    $null = docker --version 2>$null
 } catch {
     Write-Error "Docker not found. Please install Docker Desktop: https://www.docker.com/get-started"
     exit 1
@@ -12,5 +13,8 @@ try {
 
 Write-Host "Docker found. Starting docker compose (build)..."
 
-cd (Split-Path -Path $PSScriptRoot -Parent) | Out-Null
+# Ensure we run from the script directory
+Set-Location -Path $PSScriptRoot
+
+# Start the compose stack and forward logs to the console
 docker compose up --build
