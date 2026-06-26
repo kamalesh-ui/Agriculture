@@ -110,6 +110,28 @@ Notes
 - The frontend `nginx.conf` proxies `/api/` to the `backend` service, so the containers can communicate using the service name `backend:8000`.
 - The `backend` image installs dependencies from `backend/requirements.txt` at build time.
 
+## Render Deployment
+
+This repo can be deployed on Render with both backend and frontend services using `render.yaml`.
+
+1. Connect your GitHub repository to Render.
+2. Create a new Render project and choose "Use existing render.yaml".
+3. For the frontend service, set the environment variable `VITE_API_BASE_URL`
+   to your backend URL, for example: `https://<your-backend>.onrender.com`.
+4. Deploy the services.
+
+After deployment:
+- The frontend will be served by Render static site hosting.
+- The backend will be served by Render as a web service.
+
+### Vercel Deployment
+
+You can deploy only the frontend to Vercel. The backend must still run separately (Render, Railway, Fly, or another Python host).
+
+For Vercel:
+- Set `VITE_API_BASE_URL` in Vercel environment variables to the backend URL.
+- Deploy the frontend repository normally.
+
 ## API Endpoints
 
 - `POST /api/crop/recommend`

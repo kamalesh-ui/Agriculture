@@ -4,11 +4,7 @@ from app.routes import crop, pca, soil, yield_prediction
 
 app = FastAPI(title="AI Smart Agriculture API")
 
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-    "http://localhost:80",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,

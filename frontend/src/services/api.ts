@@ -67,10 +67,11 @@ export type PcaAnalysisResult = {
   features: string[];
 };
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 const jsonHeaders = { "Content-Type": "application/json" };
 
 async function apiPost<TBody, TResponse>(path: string, body: TBody): Promise<TResponse> {
-  const response = await fetch(path, {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
     method: "POST",
     headers: jsonHeaders,
     body: JSON.stringify(body),
