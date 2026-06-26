@@ -126,11 +126,18 @@ After deployment:
 
 ### Vercel Deployment
 
-You can deploy only the frontend to Vercel. The backend must still run separately (Render, Railway, Fly, or another Python host).
+You can deploy only the frontend to Vercel. The backend must still run separately on Render, Railway, Fly, or another Python host.
 
-For Vercel:
-- Set `VITE_API_BASE_URL` in Vercel environment variables to the backend URL.
-- Deploy the frontend repository normally.
+To deploy the frontend to Vercel:
+1. Create a Vercel account and connect your GitHub repository.
+2. In Vercel project settings, set the root directory to the repository root.
+3. Add environment variable `VITE_API_BASE_URL` with your backend URL, for example:
+   `https://<your-backend>.onrender.com`
+4. Deploy the project.
+
+This repository includes `vercel.json` to configure static build deployment for the `frontend` folder.
+
+If you deploy the frontend to Vercel, your backend API must still be hosted separately. Use the backend URL as the `VITE_API_BASE_URL` value.
 
 ## API Endpoints
 
