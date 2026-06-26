@@ -1,6 +1,9 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Line } from "react-chartjs-2";
 import { YieldPredictionInput, YieldPredictionResult, fetchYieldPrediction } from "../services/api";
+import Button from "../components/ui/Button";
+import Card from "../components/ui/Card";
+import SectionHeader from "../components/SectionHeader";
 
 const defaultInput: YieldPredictionInput = {
   cropType: "Wheat",
@@ -9,6 +12,13 @@ const defaultInput: YieldPredictionInput = {
   rainfall: 130,
   fertilizerUsage: 30,
 };
+
+const fields = [
+  ["temperature", "Temperature"],
+  ["humidity", "Humidity"],
+  ["rainfall", "Rainfall"],
+  ["fertilizerUsage", "Fertilizer usage"],
+] as const;
 
 export default function Yield() {
   const [input, setInput] = useState<YieldPredictionInput>(defaultInput);
@@ -38,15 +48,15 @@ export default function Yield() {
       <div className="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-slate-500/10 blur-3xl" />
 
       <section className="relative mx-auto max-w-6xl px-6 py-16">
-        <div className="mb-12 rounded-[2rem] border border-slate-800 bg-slate-900/95 p-10 shadow-2xl shadow-slate-950/40">
-          <p className="text-sm uppercase tracking-[0.4em] text-cyan-300">Yield prediction</p>
-          <h1 className="mt-4 text-4xl font-semibold text-white sm:text-5xl">Forecast your harvest output.</h1>
-          <p className="mt-4 max-w-3xl text-slate-400">Submit crop and weather values on this dedicated page to estimate yields before harvest with clear trend visuals.</p>
-        </div>
+        <SectionHeader
+          eyebrow="Yield prediction"
+          title="Forecast your harvest output."
+          description="Submit crop and climate metrics to estimate yield and visualize trends before planting and fertilizing."
+        />
 
         <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
-          <form className="rounded-[2rem] border border-slate-800 bg-slate-900/95 p-8 shadow-2xl shadow-slate-950/40" onSubmit={handleSubmit}>
-            <div className="space-y-4">
+          <Card>
+            <form className="grid gap-6" onSubmit={handleSubmit}>
               <label className="space-y-2 text-sm text-slate-300">
                 <span className="block text-slate-400">Crop type</span>
                 <input
@@ -57,38 +67,35 @@ export default function Yield() {
                 />
               </label>
 
-              {([
-                ["temperature", "Temperature"],
-                ["humidity", "Humidity"],
-                ["rainfall", "Rainfall"],
-                ["fertilizerUsage", "Fertilizer usage"],
-              ] as const).map(([key, label]) => (
-                <label key={key} className="space-y-2 text-sm text-slate-300">
-                  <span className="block text-slate-400">{label}</span>
-                  <input
-                    type="number"
-                    value={input[key]}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                      setInput({
-                        ...input,
-                        [key]: Number(event.target.value),
-                      })
-                    }
-                    className="w-full rounded-3xl border border-slate-800 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
-                  />
-                </label>
-              ))}
-            </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {fields.map(([key, label]) => (
+                  <label key={key} className="space-y-2 text-sm text-slate-300">
+                    <span className="block text-slate-400">{label}</span>
+                    <input
+                      type="number"
+                      value={input[key]}
+                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                        setInput({
+                          ...input,
+                          [key]: Number(event.target.value),
+                        })
+                      }
+                      className="w-full rounded-3xl border border-slate-800 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
+                    />
+                  </label>
+                ))}
+              </div>
 
-            <button
-              type="submit"
-              className="mt-6 w-full rounded-3xl bg-gradient-to-r from-cyan-400 to-sky-500 px-6 py-4 text-sm font-semibold text-slate-950 transition hover:brightness-110"
-            >
-              {loading ? "Predicting…" : "Predict yield"}
-            </button>
-          </form>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-slate-400">Predict yield and compare it to your current crop plan.</p>
+                <Button type="submit" className="w-full sm:w-auto">
+                  {loading ? "Predicting…" : "Predict yield"}
+                </Button>
+              </div>
+            </form>
+          </Card>
 
-          <div className="rounded-[2rem] border border-slate-800 bg-slate-900/95 p-8 shadow-2xl shadow-slate-950/40">
+          <Card>
             <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Prediction results</p>
             <div className="mt-6 rounded-[1.75rem] bg-slate-950/80 p-6">
               {loading ? (
@@ -147,7 +154,7 @@ export default function Yield() {
                 <p className="text-slate-400">Fill the form and submit to visualize the harvest forecast.</p>
               )}
             </div>
-          </div>
+          </Card>
         </div>
       </section>
     </main>

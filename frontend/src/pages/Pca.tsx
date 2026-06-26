@@ -1,9 +1,12 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Line } from "react-chartjs-2";
 import { PcaAnalysisInput, PcaAnalysisResult, fetchPcaAnalysis } from "../services/api";
+import Button from "../components/ui/Button";
+import Card from "../components/ui/Card";
+import SectionHeader from "../components/SectionHeader";
 
 const defaultSamples = "[[45, 6.8, 35], [50, 6.5, 38], [40, 6.2, 32]]";
-const defaultFeatures = "nitrogen,ph,moisture";
+const defaultFeatures = "nitrogen, ph, moisture";
 
 export default function Pca() {
   const [samples, setSamples] = useState(defaultSamples);
@@ -64,41 +67,43 @@ export default function Pca() {
       <div className="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-slate-500/10 blur-3xl" />
 
       <section className="relative mx-auto max-w-6xl px-6 py-16">
-        <div className="mb-12 rounded-[2rem] border border-slate-800 bg-slate-900/95 p-10 shadow-2xl shadow-slate-950/40">
-          <p className="text-sm uppercase tracking-[0.4em] text-amber-300">PCA analysis</p>
-          <h1 className="mt-4 text-4xl font-semibold text-white sm:text-5xl">Visualize principal components.</h1>
-          <p className="mt-4 max-w-3xl text-slate-400">Use PCA to uncover which variables matter most and how your samples cluster across the first two principal components.</p>
-        </div>
+        <SectionHeader
+          eyebrow="PCA analysis"
+          title="Visualize principal components."
+          description="Explore which variables drive variance in your dataset and compare transformed samples across the first two components."
+        />
 
         <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
-          <form className="rounded-[2rem] border border-slate-800 bg-slate-900/95 p-8 shadow-2xl shadow-slate-950/40" onSubmit={handleSubmit}>
-            <label className="space-y-2 text-sm text-slate-300">
-              <span className="block text-slate-400">Feature names</span>
-              <input
-                type="text"
-                value={features}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => setFeatures(event.target.value)}
-                className="w-full rounded-3xl border border-slate-800 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-amber-400"
-              />
-            </label>
-            <label className="space-y-2 text-sm text-slate-300">
-              <span className="block text-slate-400">Sample matrix</span>
-              <textarea
-                value={samples}
-                onChange={(event: ChangeEvent<HTMLTextAreaElement>) => setSamples(event.target.value)}
-                rows={6}
-                className="w-full rounded-[1.5rem] border border-slate-800 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-amber-400"
-              />
-            </label>
-            <button
-              type="submit"
-              className="mt-6 w-full rounded-3xl bg-gradient-to-r from-amber-400 to-orange-400 px-6 py-4 text-sm font-semibold text-slate-950 transition hover:brightness-110"
-            >
-              {loading ? "Analyzing…" : "Run PCA"}
-            </button>
-          </form>
+          <Card>
+            <form className="grid gap-6" onSubmit={handleSubmit}>
+              <label className="space-y-2 text-sm text-slate-300">
+                <span className="block text-slate-400">Feature names</span>
+                <input
+                  type="text"
+                  value={features}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => setFeatures(event.target.value)}
+                  className="w-full rounded-3xl border border-slate-800 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-amber-400"
+                />
+              </label>
+              <label className="space-y-2 text-sm text-slate-300">
+                <span className="block text-slate-400">Sample matrix</span>
+                <textarea
+                  value={samples}
+                  onChange={(event: ChangeEvent<HTMLTextAreaElement>) => setSamples(event.target.value)}
+                  rows={6}
+                  className="w-full rounded-[1.5rem] border border-slate-800 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-amber-400"
+                />
+              </label>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-slate-400">Run PCA to compare your sample clusters and feature variance.</p>
+                <Button type="submit" className="w-full sm:w-auto">
+                  {loading ? "Analyzing…" : "Run PCA"}
+                </Button>
+              </div>
+            </form>
+          </Card>
 
-          <div className="rounded-[2rem] border border-slate-800 bg-slate-900/95 p-8 shadow-2xl shadow-slate-950/40">
+          <Card>
             <p className="text-sm uppercase tracking-[0.3em] text-slate-400">PCA output</p>
             <div className="mt-6 rounded-[1.75rem] bg-slate-950/80 p-6">
               {loading ? (
@@ -116,7 +121,8 @@ export default function Pca() {
                     ))}
                   </div>
                   <div className="rounded-3xl bg-slate-900/80 p-4 text-sm text-slate-300">
-                    <pre className="whitespace-pre-wrap">{JSON.stringify(result.components.slice(0, 2), null, 2)}</pre>
+                    <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Component matrix</p>
+                    <pre className="mt-3 max-h-48 overflow-auto whitespace-pre-wrap">{JSON.stringify(result.components.slice(0, 2), null, 2)}</pre>
                   </div>
                   <div className="h-64 rounded-[1.75rem] bg-slate-950/90 p-4">
                     <Line
@@ -154,7 +160,7 @@ export default function Pca() {
                 <p className="text-slate-400">Provide data and run PCA to see component loadings and transformed samples.</p>
               )}
             </div>
-          </div>
+          </Card>
         </div>
       </section>
     </main>

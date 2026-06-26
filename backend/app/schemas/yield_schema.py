@@ -1,4 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from pydantic import ConfigDict
+
+
+class HistoricalDataPoint(BaseModel):
+    month: str
+    yield_: float = Field(..., alias="yield")
+    predicted: float
+
+    model_config = ConfigDict(populate_by_name=True)
 
 
 class YieldPredictionInput(BaseModel):
@@ -13,4 +22,4 @@ class YieldPredictionResult(BaseModel):
     predictedYield: float
     unit: str
     confidence: float
-    historicalData: list[dict[str, float]]
+    historicalData: list[HistoricalDataPoint]

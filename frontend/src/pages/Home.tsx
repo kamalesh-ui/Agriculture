@@ -1,17 +1,34 @@
 import { Link } from "react-router-dom";
+import Button from "../components/ui/Button";
+import SectionHeader from "../components/SectionHeader";
 
 const features = [
   {
     title: "Instant crop guidance",
-    description: "One-click estimates for optimal crops based on environment and soil patterns.",
+    description: "Get tailored crop recommendations from soil, weather, and nutrient data in seconds.",
   },
   {
-    title: "Yield insight",
-    description: "Predict output with confidence and plan harvests more accurately.",
+    title: "Yield forecasting",
+    description: "Visualize harvest projections and trend charts to plan every season with confidence.",
   },
   {
-    title: "Soil intelligence",
-    description: "Understand soil health metrics and get remediation suggestions instantly.",
+    title: "Soil health insights",
+    description: "Analyze nutrient balance, moisture, and remediation advice with one clean dashboard.",
+  },
+];
+
+const steps = [
+  {
+    title: "Submit farm data",
+    description: "Enter soil, weather, and crop details to feed the AI models.",
+  },
+  {
+    title: "Review smart recommendations",
+    description: "See the top crop, yield forecast, and soil actions generated automatically.",
+  },
+  {
+    title: "Take action with confidence",
+    description: "Use the dashboard insights to improve planting, fertilization, and harvest timing.",
   },
 ];
 
@@ -21,22 +38,19 @@ export default function Home() {
       <div className="pointer-events-none absolute right-0 top-0 h-72 w-72 translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/10 blur-3xl" />
       <div className="pointer-events-none absolute left-0 bottom-0 h-80 w-80 -translate-x-1/2 translate-y-1/2 rounded-full bg-emerald-400/10 blur-3xl" />
 
-      <section className="relative mx-auto flex max-w-7xl flex-col gap-12 px-6 py-16 lg:flex-row lg:items-center lg:justify-between">
+      <section className="relative mx-auto max-w-7xl px-6 py-16 lg:flex lg:items-center lg:justify-between lg:gap-16">
         <div className="max-w-2xl space-y-6">
           <span className="inline-flex rounded-full bg-emerald-400/15 px-4 py-2 text-sm font-semibold text-emerald-300 backdrop-blur-sm">
-            Launch your farm intelligence
+            Launch farm intelligence
           </span>
           <h1 className="text-5xl font-semibold leading-tight text-white sm:text-6xl">
-            Transform agriculture with AI-powered crop, yield, and soil predictions.
+            Make every harvest smarter with AI-powered agriculture insights.
           </h1>
           <p className="max-w-xl text-lg text-slate-400">
-            RiseAg brings a premium multi-page experience with clean visuals, sample-driven demos, and instant farm analytics without manual setup.
+            RiseAg brings modern analytics to crop recommendation, soil diagnostics, and yield forecasting in a polished, easy-to-use interface.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link
-              to="/analytics"
-              className="rounded-full bg-emerald-400 px-7 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300"
-            >
+            <Link to="/analytics" className="rounded-full bg-emerald-400 px-7 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300">
               Start analytics
             </Link>
             <Link
@@ -54,7 +68,7 @@ export default function Home() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-semibold text-white">Smart Farm Dashboard</p>
+                  <p className="text-sm font-semibold text-white">RiseAg dashboard</p>
                   <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Live insights</p>
                 </div>
                 <div className="rounded-2xl bg-slate-800 px-4 py-2 text-xs text-slate-300">Online</div>
@@ -89,14 +103,39 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-16 md:grid-cols-3">
-        {features.map((feature) => (
-          <div key={feature.title} className="relative overflow-hidden rounded-[2rem] border border-slate-800 bg-slate-900/95 p-8 shadow-2xl shadow-slate-950/40 transition duration-300 hover:-translate-y-1 hover:border-slate-700">
-            <div className="absolute right-6 top-6 h-20 w-20 rounded-full bg-slate-800/60 blur-2xl" />
-            <h3 className="relative text-xl font-semibold text-white">{feature.title}</h3>
-            <p className="relative mt-4 text-slate-400">{feature.description}</p>
+      <section className="mx-auto max-w-7xl px-6 pb-20">
+        <SectionHeader
+          eyebrow="Why RiseAg"
+          title="A smarter farm workflow in every page"
+          description="Move beyond static forms with a dashboard-first UI, instant results, and polished analytical cards that help you understand what to do next."
+        />
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {features.map((feature) => (
+            <article
+              key={feature.title}
+              className="group overflow-hidden rounded-[2rem] border border-slate-800 bg-slate-900/95 p-8 shadow-2xl shadow-slate-950/40 transition duration-300 hover:-translate-y-1 hover:border-slate-700"
+            >
+              <div className="mb-6 h-14 w-14 rounded-3xl bg-slate-800/90" />
+              <h3 className="text-xl font-semibold text-white">{feature.title}</h3>
+              <p className="mt-3 text-slate-400">{feature.description}</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-16 rounded-[2rem] border border-slate-800 bg-slate-900/95 p-8 shadow-2xl shadow-slate-950/40">
+          <div className="grid gap-6 lg:grid-cols-3">
+            {steps.map((step, index) => (
+              <div key={step.title} className="rounded-[1.75rem] border border-slate-800 bg-slate-950/90 p-6">
+                <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-400/15 text-sm font-semibold text-emerald-300">
+                  {index + 1}
+                </div>
+                <h4 className="mt-4 text-xl font-semibold text-white">{step.title}</h4>
+                <p className="mt-3 text-slate-400">{step.description}</p>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </section>
     </main>
   );
