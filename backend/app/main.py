@@ -19,6 +19,6 @@ app.include_router(yield_prediction.router, prefix="/api/yield", tags=["yield"])
 app.include_router(soil.router, prefix="/api/soil", tags=["soil"])
 app.include_router(pca.router, prefix="/api/pca", tags=["pca"])
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 async def root():
     return {"message": "AI Smart Agriculture API is running"}
